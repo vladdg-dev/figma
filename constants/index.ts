@@ -35,34 +35,40 @@ export const shapeElements = [
 
 export const navElements = [
   {
-    icon: "/assets/select.svg",
-    name: "Select",
-    value: "select",
+    id: '1',
+    icon: '/assets/select.svg',
+    name: 'Select',
+    value: 'select',
   },
   {
-    icon: "/assets/rectangle.svg",
-    name: "Rectangle",
+    id: '2',
+    icon: '/assets/rectangle.svg',
+    name: 'Rectangle',
     value: shapeElements,
   },
   {
-    icon: "/assets/text.svg",
-    value: "text",
-    name: "Text",
+    id: '3',
+    icon: '/assets/text.svg',
+    value: 'text',
+    name: 'Text',
   },
   {
-    icon: "/assets/delete.svg",
-    value: "delete",
-    name: "Delete",
+    id: '4',
+    icon: '/assets/delete.svg',
+    value: 'delete',
+    name: 'Delete',
   },
   {
-    icon: "/assets/reset.svg",
-    value: "reset",
-    name: "Reset",
+    id: '5',
+    icon: '/assets/reset.svg',
+    value: 'reset',
+    name: 'Reset',
   },
   {
-    icon: "/assets/comments.svg",
-    value: "comments",
-    name: "Comments",
+    id: '6',
+    icon: '/assets/comments.svg',
+    value: 'comments',
+    name: 'Comments',
   },
 ];
 

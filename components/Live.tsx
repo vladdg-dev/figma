@@ -1,12 +1,20 @@
-import { useMyPresence, useOthers } from '@/liveblocks.config';
+import {
+  useBroadcastEvent,
+  useEventListener,
+  useMyPresence,
+  useOthers,
+} from '@/liveblocks.config';
 import LiveCursors from './cursor/LiveCursors';
 import { useCallback, useEffect, useState } from 'react';
 import CursorChat from './cursor/CursorChat';
 import { CursorMode, CursorState, Reaction } from '@/types/type';
 import ReactionSelector from './reaction/ReactionButton';
+import FlyingReaction from './reaction/FlyingReaction';
+import useInterval from '@/hooks/useInterval';
 
 const Live = () => {
   const others = useOthers();
+  const broadcast = useBroadcastEvent();
 
   const [{ cursor }, updateMyPresence] = useMyPresence();
   const [cursorState, setCursorState] = useState<CursorState>({
@@ -43,6 +51,42 @@ const Live = () => {
       window.addEventListener('keydown', onKeyDown);
     };
   }, [updateMyPresence]);
+
+  const createReaction = (x: number, y: number, value: string) => ({
+    point: { x, y },
+    value,
+    timestamp: Date.now(),
+  });
+
+  useInterval(() => {
+    const thresholdTimestamp = Date.now() - 4000;
+    setReactions(reactions =>
+      reactions.filter(({ timestamp }) => timestamp > thresholdTimestamp)
+    );
+  }, 1000);
+
+  useInterval(() => {
+    if (
+      cursorState.mode === CursorMode.Reaction &&
+      cursorState.isPressed &&
+      cursor
+    ) {
+      setReactions(prevState => [
+        ...prevState,
+        createReaction(cursor.x, cursor.y, cursorState.reaction),
+      ]);
+      broadcast(createReaction(cursor.x, cursor.y, cursorState.reaction));
+    }
+  }, 100);
+
+  useEventListener(eventData => {
+    const event = eventData.event;
+
+    setReactions(prevState => [
+      ...prevState,
+      createReaction(event.point.x, event.point.y, event.value),
+    ]);
+  });
 
   const calculateCoordinates = (event: React.PointerEvent) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -109,6 +153,15 @@ const Live = () => {
       className="h-[100vh] w-full flex justify-center items-center text-center"
     >
       <h1 className="text-2xl text-white">Liveblocks Figma Clone</h1>
+      {reactions.map(reaction => (
+        <FlyingReaction
+          key={reaction.timestamp.toString()}
+          x={reaction.point.x}
+          y={reaction.point.y}
+          timestamp={reaction.timestamp}
+          value={reaction.value}
+        />
+      ))}
       {cursor && (
         <CursorChat
           cursor={cursor}

@@ -1,4 +1,4 @@
-import { createClient } from '@liveblocks/client';
+import { IUserInfo, createClient } from '@liveblocks/client';
 import { createRoomContext } from '@liveblocks/react';
 
 const client = createClient({
@@ -27,8 +27,8 @@ type Storage = {
 // provided by your own custom auth back end (if used). Useful for data that
 // will not change during a session, like a user's name or avatar.
 type UserMeta = {
-  // id?: string,  // Accessible through `user.id`
-  // info?: Json,  // Accessible through `user.info`
+  id?: string; // Accessible through `user.id`
+  info?: IUserInfo; // Accessible through `user.info`
 };
 
 // Optionally, the type of custom events broadcast and listened to in this
@@ -37,8 +37,6 @@ type RoomEvent = {
   // type: "NOTIFICATION",
   value: string;
   point: { x: number; y: number };
-  // x: number;
-  // y: number;
 };
 
 // Optionally, when using Comments, ThreadMetadata represents metadata on

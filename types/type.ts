@@ -1,5 +1,6 @@
-import { BaseUserMeta, User } from "@liveblocks/client";
-import { Gradient, Pattern } from "fabric/fabric-impl";
+import { Presence } from '@/liveblocks.config';
+import { BaseUserMeta, User } from '@liveblocks/client';
+import { Gradient, Pattern } from 'fabric/fabric-impl';
 
 export enum CursorMode {
   Hidden,
@@ -118,11 +119,11 @@ export type ShapesMenuProps = {
   imageInputRef: any;
 };
 
-export type Presence = any;
+// export type Presence = any;
 
-export type LiveCursorProps = {
-  others: readonly User<Presence, BaseUserMeta>[];
-};
+// export type LiveCursorProps = {
+//   others: readonly User<Presence, BaseUserMeta>[];
+// };
 
 export type CanvasMouseDown = {
   options: fabric.IEvent;
@@ -182,11 +183,5 @@ export type CursorChatProps = {
   cursor: { x: number; y: number };
   cursorState: CursorState;
   setCursorState: (cursorState: CursorState) => void;
-  updateMyPresence: (
-    presence: Partial<{
-      cursor: { x: number; y: number };
-      cursorColor: string;
-      message: string;
-    }>
-  ) => void;
+  updateMyPresence: (presence: Partial<Presence>) => void;
 };

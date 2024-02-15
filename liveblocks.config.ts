@@ -8,9 +8,10 @@ const client = createClient({
 // Presence represents the properties that exist on every user in the Room
 // and that will automatically be kept in sync. Accessible through the
 // `user.presence` property. Must be JSON-serializable.
-type Presence = {
-  // cursor: { x: number, y: number } | null,
-  // ...
+export type Presence = {
+  cursor: { x: number; y: number } | null;
+  cursorColor?: string;
+  message: string | null;
 };
 
 // Optionally, Storage represents the shared document that persists in the

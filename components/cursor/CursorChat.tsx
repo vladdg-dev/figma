@@ -18,23 +18,13 @@ const CursorChat: React.FC<CursorChatProps> = ({
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      if (cursorState.mode === CursorMode.Chat) {
-        // If cursorState is in Chat mode, update the message and mode
-        setCursorState({
-          mode: CursorMode.Chat,
-          previousMessage: cursorState.message,
-          message: '',
-        });
-      } else {
-        // If cursorState is not in Chat mode, switch to Chat mode
-        setCursorState({
-          mode: CursorMode.Chat,
-          previousMessage: null, // Set previousMessage to null or handle it as needed
-          message: '',
-        });
-      }
+      setCursorState({
+        mode: CursorMode.Chat,
+        previousMessage:
+          cursorState.mode === CursorMode.Chat ? cursorState.message : null,
+        message: '',
+      });
     } else if (event.key === 'Escape') {
-      // Set mode to Hidden when Escape key is pressed
       setCursorState({
         mode: CursorMode.Hidden,
       });

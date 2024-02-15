@@ -51,7 +51,7 @@ const CursorChat: React.FC<CursorChatProps> = ({
               onChange={handleChange}
               onKeyDown={handleKeyDown}
               placeholder={
-                cursorState.previousMessage ? '' : 'Type a message...'
+                cursorState.previousMessage ? '' : 'Say something...'
               }
               value={cursorState.message}
               maxLength={50}

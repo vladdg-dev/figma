@@ -12,7 +12,7 @@ const LiveCursors: FC<{ others: readonly User<Presence, BaseUserMeta>[] }> = ({
 
     return (
       <Cursor
-        key={connectionId.toString()}
+        key={connectionId}
         color={COLORS[Number(connectionId) % COLORS.length]}
         x={presence.cursor.x}
         y={presence.cursor.y}

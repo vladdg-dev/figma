@@ -2,14 +2,13 @@ import CursorSVG from '@/public/assets/CursorSVG';
 import { FC } from 'react';
 
 interface CursorProps {
-  key: string;
   color: string;
   x: number;
   y: number;
   message: string | null;
 }
 
-const Cursor: FC<CursorProps> = ({ key, color, x, y, message }) => {
+const Cursor: FC<CursorProps> = ({ color, x, y, message }) => {
   return (
     <div
       className="pointer-events-none absolute top-0 left-0"

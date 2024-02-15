@@ -14,3 +14,5 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
     </html>
   );
 };
+
+export default RootLayout;

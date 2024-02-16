@@ -10,13 +10,14 @@ import {
   initializeFabric,
   renderCanvas,
   handleCanvasObjectModified,
+  handleCanvasSelectionCreated,
 } from '@/lib/canvas';
 
 import LeftSidebar from '@/components/LeftSidebar';
 import Live from '@/components/Live';
 import Navbar from '@/components/Navbar';
 import RightSidebar from '@/components/RightSidebar';
-import { ActiveElement } from '@/types/type';
+import { ActiveElement, Attributes } from '@/types/type';
 import { useMutation, useRedo, useStorage, useUndo } from '@/liveblocks.config';
 import { defaultNavElement } from '@/constants';
 import { handleDelete, handleKeyDown } from '@/lib/key-events';
@@ -33,11 +34,22 @@ const Page = () => {
   const selectedShapeRef = useRef<string | null>(null);
   const activeObjectRef = useRef<fabric.Object | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const isEditingRef = useRef(false);
 
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     name: '',
     value: '',
     icon: '',
+  });
+
+  const [elementAttributes, setElementAttributes] = useState<Attributes>({
+    width: '',
+    height: '',
+    fontSize: '',
+    fontFamily: '',
+    fontWeight: '',
+    fill: '#aabbcc',
+    stroke: '#aabbcc',
   });
 
   const canvasObjects = useStorage(root => root.canvasObjects);
@@ -95,6 +107,14 @@ const Page = () => {
       handleCanvasObjectModified({
         options,
         syncShapeInStorage,
+      });
+    });
+
+    canvas.on('selection:created', options => {
+      handleCanvasSelectionCreated({
+        options,
+        isEditingRef,
+        setElementAttributes,
       });
     });
 
@@ -185,7 +205,14 @@ const Page = () => {
       <section className="flex h-full flex-row">
         <LeftSidebar allShapes={Array.from(canvasObjects)} />
         <Live canvasRef={canvasRef} />
-        <RightSidebar />
+        <RightSidebar
+          fabricRef={fabricRef}
+          elementAttributes={elementAttributes}
+          setElementAttributes={setElementAttributes}
+          isEditingRef={isEditingRef}
+          activeObjectRef={activeObjectRef}
+          syncShapeInStorage={syncShapeInStorage}
+        />
       </section>
     </main>
   );

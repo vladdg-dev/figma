@@ -4,6 +4,7 @@ import Dimensions from './settings/Dimensions';
 import Export from './settings/Export';
 import Text from './settings/Text';
 import { modifyShape } from '@/lib/shapes';
+import { useRef } from 'react';
 
 const RightSidebar: React.FC<RightSidebarProps> = ({
   fabricRef,
@@ -13,6 +14,9 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
   activeObjectRef,
   syncShapeInStorage,
 }) => {
+  const colorInputRef = useRef(null);
+  const strokeInputRef = useRef(null);
+
   const handleInputChange = (property: string, value: string) => {
     if (!isEditingRef.current) isEditingRef.current = true;
 
@@ -47,8 +51,20 @@ const RightSidebar: React.FC<RightSidebarProps> = ({
         fontWeight={elementAttributes.fontWeight}
         handleInputChange={handleInputChange}
       />
-      <Color />
-      <Color />
+      <Color
+        inputRef={colorInputRef}
+        attribute={elementAttributes.fill}
+        placeholder="color"
+        handleInputChange={handleInputChange}
+        attributeType="fill"
+      />
+      <Color
+        inputRef={strokeInputRef}
+        attribute={elementAttributes.stroke}
+        placeholder="stroke"
+        attributeType="stroke"
+        handleInputChange={handleInputChange}
+      />
       <Export />
     </section>
   );

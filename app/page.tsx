@@ -10,7 +10,6 @@ import {
   initializeFabric,
   renderCanvas,
   handleCanvasObjectModified,
-  handleCanvasObjectMoving,
 } from '@/lib/canvas';
 
 import LeftSidebar from '@/components/LeftSidebar';
@@ -29,6 +28,7 @@ const Page = () => {
   const shapeRef = useRef<fabric.Object | null>(null);
   const selectedShapeRef = useRef<string | null>(null);
   const activeObjectRef = useRef<fabric.Object | null>(null);
+  const resizeTimeoutRef = useRef(null);
 
   const [activeElement, setActiveElement] = useState<ActiveElement>({
     name: '',
@@ -95,7 +95,7 @@ const Page = () => {
     });
 
     window.addEventListener('resize', () => {
-      handleResize({ canvas });
+      if (fabricRef.current) handleResize({ canvas: fabricRef.current });
     });
 
     return () => {
@@ -150,7 +150,7 @@ const Page = () => {
         handleActiveElement={handleActiveElement}
       />
       <section className="flex h-full flex-row">
-        <LeftSidebar />
+        <LeftSidebar allShapes={Array.from(canvasObjects)} />
         <Live canvasRef={canvasRef} />
         <RightSidebar />
       </section>

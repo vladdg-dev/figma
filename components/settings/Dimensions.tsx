@@ -10,7 +10,7 @@ type Props = {
   width: string;
   height: string;
   isEditingRef: React.MutableRefObject<boolean>;
-  handleInputChange: (property: string, value: string) => void;
+  handleInputChange: (_property: string, _value: string) => void;
 };
 
 const Dimensions = ({

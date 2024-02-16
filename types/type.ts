@@ -1,11 +1,13 @@
 import { Presence } from '@/liveblocks.config';
-// import { BaseUserMeta, User } from '@liveblocks/client';
-import { Gradient, Pattern } from 'fabric/fabric-impl';
 
 export enum CursorMode {
+  // eslint-disable-next-line no-unused-vars
   Hidden,
+  // eslint-disable-next-line no-unused-vars
   Chat,
+  // eslint-disable-next-line no-unused-vars
   ReactionSelector,
+  // eslint-disable-next-line no-unused-vars
   Reaction,
 }
 
@@ -33,22 +35,6 @@ export type Reaction = {
   point: { x: number; y: number };
 };
 
-export type ReactionEvent = {
-  x: number;
-  y: number;
-  value: string;
-};
-
-export type ShapeData = {
-  type: string;
-  width: number;
-  height: number;
-  fill: string | Pattern | Gradient;
-  left: number;
-  top: number;
-  objectId: string | undefined;
-};
-
 export type Attributes = {
   width: string;
   height: string;
@@ -65,6 +51,7 @@ export type ActiveElement = {
   icon: string;
 } | null;
 
+// eslint-disable-next-line no-unused-vars
 export interface CustomFabricObject<T extends fabric.Object>
   extends fabric.Object {
   objectId?: string;
@@ -75,20 +62,20 @@ export type ModifyShape = {
   property: string;
   value: any;
   activeObjectRef: React.MutableRefObject<fabric.Object | null>;
-  syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
 };
 
 export type ElementDirection = {
   canvas: fabric.Canvas;
   direction: string;
-  syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
 };
 
 export type ImageUpload = {
   file: File;
   canvas: React.MutableRefObject<fabric.Canvas>;
   shapeRef: React.MutableRefObject<fabric.Object | null>;
-  syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
 };
 
 export type RightSidebarProps = {
@@ -97,14 +84,14 @@ export type RightSidebarProps = {
   fabricRef: React.RefObject<fabric.Canvas | null>;
   activeObjectRef: React.RefObject<fabric.Object | null>;
   isEditingRef: React.MutableRefObject<boolean>;
-  syncShapeInStorage: (obj: any) => void;
+  syncShapeInStorage: (_obj: any) => void;
 };
 
 export type NavbarProps = {
   activeElement: ActiveElement;
   imageInputRef: React.MutableRefObject<HTMLInputElement | null>;
-  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleActiveElement: (element: ActiveElement) => void;
+  handleImageUpload: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleActiveElement: (_element: ActiveElement) => void;
 };
 
 export type ShapesMenuProps = {
@@ -118,12 +105,6 @@ export type ShapesMenuProps = {
   handleImageUpload: any;
   imageInputRef: any;
 };
-
-// export type Presence = any;
-
-// export type LiveCursorProps = {
-//   others: readonly User<Presence, BaseUserMeta>[];
-// };
 
 export type CanvasMouseDown = {
   options: fabric.IEvent;
@@ -139,7 +120,7 @@ export type CanvasMouseMove = {
   isDrawing: React.MutableRefObject<boolean>;
   selectedShapeRef: any;
   shapeRef: any;
-  syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
 };
 
 export type CanvasMouseUp = {
@@ -148,18 +129,18 @@ export type CanvasMouseUp = {
   shapeRef: any;
   activeObjectRef: React.MutableRefObject<fabric.Object | null>;
   selectedShapeRef: any;
-  syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
   setActiveElement: any;
 };
 
 export type CanvasObjectModified = {
   options: fabric.IEvent;
-  syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
 };
 
 export type CanvasPathCreated = {
   options: (fabric.IEvent & { path: CustomFabricObject<fabric.Path> }) | any;
-  syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
 };
 
 export type CanvasSelectionCreated = {
@@ -182,6 +163,6 @@ export type RenderCanvas = {
 export type CursorChatProps = {
   cursor: { x: number; y: number };
   cursorState: CursorState;
-  setCursorState: (cursorState: CursorState) => void;
-  updateMyPresence: (presence: Partial<Presence>) => void;
+  setCursorState: (_cursorState: CursorState) => void;
+  updateMyPresence: (_presence: Partial<Presence>) => void;
 };

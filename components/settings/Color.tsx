@@ -5,7 +5,7 @@ type Props = {
   attribute: string;
   placeholder: string;
   attributeType: string;
-  handleInputChange: (property: string, value: string) => void;
+  handleInputChange: (_property: string, _value: string) => void;
 };
 
 const Color = ({

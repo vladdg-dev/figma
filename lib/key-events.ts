@@ -17,50 +17,45 @@ export const handleCopy = (canvas: fabric.Canvas) => {
 
 export const handlePaste = (
   canvas: fabric.Canvas,
-  syncShapeInStorage: (shape: fabric.Object) => void
+  syncShapeInStorage: (_shape: fabric.Object) => void
 ) => {
   if (!canvas || !(canvas instanceof fabric.Canvas)) {
-    console.error("Invalid canvas object. Aborting paste operation.");
     return;
   }
 
   // Retrieve serialized objects from the clipboard
-  const clipboardData = localStorage.getItem("clipboard");
+  const clipboardData = localStorage.getItem('clipboard');
 
   if (clipboardData) {
-    try {
-      const parsedObjects = JSON.parse(clipboardData);
-      parsedObjects.forEach((objData: fabric.Object) => {
-        // convert the plain javascript objects retrieved from localStorage into fabricjs objects (deserialization)
-        fabric.util.enlivenObjects(
-          [objData],
-          (enlivenedObjects: fabric.Object[]) => {
-            enlivenedObjects.forEach((enlivenedObj) => {
-              // Offset the pasted objects to avoid overlap with existing objects
-              enlivenedObj.set({
-                left: enlivenedObj.left || 0 + 20,
-                top: enlivenedObj.top || 0 + 20,
-                objectId: uuidv4(),
-                fill: "#aabbcc",
-              } as CustomFabricObject<any>);
+    const parsedObjects = JSON.parse(clipboardData);
+    parsedObjects.forEach((objData: fabric.Object) => {
+      // convert the plain javascript objects retrieved from localStorage into fabric js objects (deserialization)
+      fabric.util.enlivenObjects(
+        [objData],
+        (enlivenedObjects: fabric.Object[]) => {
+          enlivenedObjects.forEach(enlivenedObj => {
+            // Offset the pasted objects to avoid overlap with existing objects
+            enlivenedObj.set({
+              left: enlivenedObj.left || 0 + 20,
+              top: enlivenedObj.top || 0 + 20,
+              objectId: uuidv4(),
+              fill: '#aabbcc',
+            } as CustomFabricObject<any>);
 
-              canvas.add(enlivenedObj);
-              syncShapeInStorage(enlivenedObj);
-            });
-            canvas.renderAll();
-          },
-          "fabric"
-        );
-      });
-    } catch (error) {
-      console.error("Error parsing clipboard data:", error);
-    }
+            canvas.add(enlivenedObj);
+            syncShapeInStorage(enlivenedObj);
+          });
+          canvas.renderAll();
+        },
+        'fabric'
+      );
+    });
   }
 };
 
 export const handleDelete = (
   canvas: fabric.Canvas,
-  deleteShapeFromStorage: (id: string) => void
+  deleteShapeFromStorage: (_id: string) => void
 ) => {
   const activeObjects = canvas.getActiveObjects();
   if (!activeObjects || activeObjects.length === 0) return;
@@ -90,8 +85,8 @@ export const handleKeyDown = ({
   canvas: fabric.Canvas | any;
   undo: () => void;
   redo: () => void;
-  syncShapeInStorage: (shape: fabric.Object) => void;
-  deleteShapeFromStorage: (id: string) => void;
+  syncShapeInStorage: (_shape: fabric.Object) => void;
+  deleteShapeFromStorage: (_id: string) => void;
 }) => {
   // Check if the key pressed is ctrl/cmd + c (copy)
   if ((e?.ctrlKey || e?.metaKey) && e.keyCode === 67) {
@@ -102,11 +97,6 @@ export const handleKeyDown = ({
   if ((e?.ctrlKey || e?.metaKey) && e.keyCode === 86) {
     handlePaste(canvas, syncShapeInStorage);
   }
-
-  // Check if the key pressed is delete/backspace (delete)
-  // if (e.keyCode === 8 || e.keyCode === 46) {
-  //   handleDelete(canvas, deleteShapeFromStorage);
-  // }
 
   // check if the key pressed is ctrl/cmd + x (cut)
   if ((e?.ctrlKey || e?.metaKey) && e.keyCode === 88) {

@@ -69,6 +69,11 @@ const Page = () => {
     canvasObjects.set(objectId, shapeData);
   }, []);
 
+  const deleteShapeFromStorage = useMutation(({ storage }, objectId) => {
+    const canvasObjects = storage.get('canvasObjects');
+    canvasObjects.delete(objectId);
+  }, []);
+
   useEffect(() => {
     const canvas = initializeFabric({ canvasRef, fabricRef });
 
@@ -159,7 +164,7 @@ const Page = () => {
     return () => {
       canvas.dispose();
     };
-  }, []);
+  }, [deleteShapeFromStorage, redo, syncShapeInStorage, undo]);
 
   useEffect(() => {
     renderCanvas({ fabricRef, canvasObjects, activeObjectRef });
@@ -174,11 +179,6 @@ const Page = () => {
       canvasObjects.delete(key);
     }
     return canvasObjects.size === 0;
-  }, []);
-
-  const deleteShapeFromStorage = useMutation(({ storage }, objectId) => {
-    const canvasObjects = storage.get('canvasObjects');
-    canvasObjects.delete(objectId);
   }, []);
 
   const handleActiveElement = (element: ActiveElement) => {

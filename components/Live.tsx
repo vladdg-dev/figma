@@ -2,7 +2,6 @@ import {
   useBroadcastEvent,
   useEventListener,
   useMyPresence,
-  useOthers,
 } from '@/liveblocks.config';
 import LiveCursors from './cursor/LiveCursors';
 import { useCallback, useEffect, useState } from 'react';
@@ -27,7 +26,6 @@ interface Props {
 }
 
 const Live: React.FC<Props> = ({ canvasRef, undo, redo }) => {
-  const others = useOthers();
   const broadcast = useBroadcastEvent();
 
   const [{ cursor }, updateMyPresence] = useMyPresence();
@@ -158,30 +156,33 @@ const Live: React.FC<Props> = ({ canvasRef, undo, redo }) => {
     setCursorState({ mode: CursorMode.Reaction, reaction, isPressed: false });
   }, []);
 
-  const handleContextMenuClick = useCallback((shortcut: string) => {
-    switch (shortcut) {
-      case 'Chat':
-        setCursorState({
-          mode: CursorMode.Chat,
-          previousMessage: null,
-          message: '',
-        });
-        break;
-      case 'Undo':
-        undo();
-        break;
-      case 'Redo':
-        redo();
-        break;
-      case 'Reactions':
-        setCursorState({
-          mode: CursorMode.ReactionSelector,
-        });
-        break;
-      default:
-        break;
-    }
-  }, []);
+  const handleContextMenuClick = useCallback(
+    (shortcut: string) => {
+      switch (shortcut) {
+        case 'Chat':
+          setCursorState({
+            mode: CursorMode.Chat,
+            previousMessage: null,
+            message: '',
+          });
+          break;
+        case 'Undo':
+          undo();
+          break;
+        case 'Redo':
+          redo();
+          break;
+        case 'Reactions':
+          setCursorState({
+            mode: CursorMode.ReactionSelector,
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    [undo, redo]
+  );
 
   return (
     <ContextMenu>
@@ -215,7 +216,7 @@ const Live: React.FC<Props> = ({ canvasRef, undo, redo }) => {
         {cursorState.mode === CursorMode.ReactionSelector && (
           <ReactionSelector setReaction={setReaction} />
         )}
-        <LiveCursors others={others} />
+        <LiveCursors />
         <Comments />
       </ContextMenuTrigger>
       <ContextMenuContent className="right-menu-content">

@@ -12,6 +12,7 @@ import {
   handleCanvasObjectModified,
   handleCanvasSelectionCreated,
   handleCanvasObjectScaling,
+  handlePathCreated,
 } from '@/lib/canvas';
 
 import LeftSidebar from '@/components/LeftSidebar';
@@ -126,6 +127,20 @@ const Page = () => {
       });
     });
 
+    canvas.on('path:created', options => {
+      handlePathCreated({
+        options,
+        syncShapeInStorage,
+      });
+    });
+
+    canvas.on('object:scaling', options => {
+      handleCanvasObjectScaling({
+        options,
+        setElementAttributes,
+      });
+    });
+
     window.addEventListener('resize', () => {
       if (fabricRef.current) handleResize({ canvas: fabricRef.current });
     });
@@ -212,7 +227,7 @@ const Page = () => {
       />
       <section className="h-full flex flex-row">
         <LeftSidebar allShapes={Array.from(canvasObjects)} />
-        <Live canvasRef={canvasRef} />
+        <Live canvasRef={canvasRef} undo={undo} redo={redo} />
         <RightSidebar
           fabricRef={fabricRef}
           elementAttributes={elementAttributes}

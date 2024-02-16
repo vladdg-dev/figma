@@ -1,4 +1,4 @@
-import { IUserInfo, createClient } from '@liveblocks/client';
+import { IUserInfo, LiveMap, createClient } from '@liveblocks/client';
 import { createRoomContext } from '@liveblocks/react';
 
 const client = createClient({
@@ -10,8 +10,9 @@ const client = createClient({
 // `user.presence` property. Must be JSON-serializable.
 export type Presence = {
   cursor: { x: number; y: number } | null;
-  cursorColor?: string;
-  message: string | null;
+  cursorColor?: string | null;
+  message?: string | null;
+  editingText: string | null;
 };
 
 // Optionally, Storage represents the shared document that persists in the
@@ -21,6 +22,7 @@ export type Presence = {
 type Storage = {
   // author: LiveObject<{ firstName: string, lastName: string }>,
   // ...
+  canvasObjects: LiveMap<string, any>;
 };
 
 // Optionally, UserMeta represents static/readonly metadata on each user, as

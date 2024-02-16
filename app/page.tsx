@@ -210,7 +210,7 @@ const Page = () => {
           });
         }}
       />
-      <section className="flex h-full flex-row">
+      <section className="h-full flex flex-row">
         <LeftSidebar allShapes={Array.from(canvasObjects)} />
         <Live canvasRef={canvasRef} />
         <RightSidebar

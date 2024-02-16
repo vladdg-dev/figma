@@ -27,8 +27,8 @@ type Props = {
 export const NewThread = ({ children }: Props) => {
   // set state to track if we're placing a new comment or not
   const [creatingCommentState, setCreatingCommentState] = useState<
-    "placing" | "placed" | "complete"
-  >("complete");
+    'placing' | 'placed' | 'complete'
+  >('complete');
 
   const createThread = useCreateThread();
 
@@ -48,7 +48,7 @@ export const NewThread = ({ children }: Props) => {
 
   useEffect(() => {
     // If composer is already placed, don't do anything
-    if (creatingCommentState === "complete") {
+    if (creatingCommentState === 'complete') {
       return;
     }
 
@@ -57,38 +57,37 @@ export const NewThread = ({ children }: Props) => {
       e.preventDefault();
 
       // If already placed, click outside to close composer
-      if (creatingCommentState === "placed") {
+      if (creatingCommentState === 'placed') {
         // check if the click event is on/inside the composer
         const isClickOnComposer = ((e as any)._savedComposedPath = e
           .composedPath()
           .some((el: any) => {
-            return el.classList?.contains("lb-composer-editor-actions");
+            return el.classList?.contains('lb-composer-editor-actions');
           }));
 
-        // if click is inisde/on composer, don't do anything
         if (isClickOnComposer) {
           return;
         }
 
         // if click is outside composer, close composer
         if (!isClickOnComposer) {
-          setCreatingCommentState("complete");
+          setCreatingCommentState('complete');
           return;
         }
       }
 
       // First click sets composer down
-      setCreatingCommentState("placed");
+      setCreatingCommentState('placed');
       setComposerCoords({
         x: e.clientX,
         y: e.clientY,
       });
     };
 
-    document.documentElement.addEventListener("click", newComment);
+    document.documentElement.addEventListener('click', newComment);
 
     return () => {
-      document.documentElement.removeEventListener("click", newComment);
+      document.documentElement.removeEventListener('click', newComment);
     };
   }, [creatingCommentState]);
 
@@ -100,11 +99,11 @@ export const NewThread = ({ children }: Props) => {
       lastPointerEvent.current = e;
     };
 
-    document.documentElement.addEventListener("pointermove", handlePointerMove);
+    document.documentElement.addEventListener('pointermove', handlePointerMove);
 
     return () => {
       document.documentElement.removeEventListener(
-        "pointermove",
+        'pointermove',
         handlePointerMove
       );
     };
@@ -112,7 +111,7 @@ export const NewThread = ({ children }: Props) => {
 
   // Set pointer event from last click on body for use later
   useEffect(() => {
-    if (creatingCommentState !== "placing") {
+    if (creatingCommentState !== 'placing') {
       return;
     }
 
@@ -130,22 +129,22 @@ export const NewThread = ({ children }: Props) => {
 
     // Right click to cancel placing
     const handleContextMenu = (e: Event) => {
-      if (creatingCommentState === "placing") {
+      if (creatingCommentState === 'placing') {
         e.preventDefault();
-        setCreatingCommentState("complete");
+        setCreatingCommentState('complete');
       }
     };
 
-    document.documentElement.addEventListener("pointerdown", handlePointerDown);
-    document.documentElement.addEventListener("contextmenu", handleContextMenu);
+    document.documentElement.addEventListener('pointerdown', handlePointerDown);
+    document.documentElement.addEventListener('contextmenu', handleContextMenu);
 
     return () => {
       document.documentElement.removeEventListener(
-        "pointerdown",
+        'pointerdown',
         handlePointerDown
       );
       document.documentElement.removeEventListener(
-        "contextmenu",
+        'contextmenu',
         handleContextMenu
       );
     };
@@ -158,7 +157,7 @@ export const NewThread = ({ children }: Props) => {
       event.stopPropagation();
 
       // Get your canvas element
-      const overlayPanel = document.querySelector("#canvas");
+      const overlayPanel = document.querySelector('#canvas');
 
       // if there's no composer coords or last pointer event, meaning the user hasn't clicked yet, don't do anything
       if (!composerCoords || !lastPointerEvent.current || !overlayPanel) {
@@ -182,7 +181,7 @@ export const NewThread = ({ children }: Props) => {
       });
 
       setComposerCoords(null);
-      setCreatingCommentState("complete");
+      setCreatingCommentState('complete');
       setAllowUseComposer(false);
     },
     [createThread, composerCoords, maxZIndex]

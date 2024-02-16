@@ -47,6 +47,10 @@ export type ThreadMetadata = {
   // resolved: boolean;
   // quote: string;
   // time: number;
+  x: number;
+  y: number;
+  zIndex: number;
+  resolved: boolean;
 };
 
 export const {

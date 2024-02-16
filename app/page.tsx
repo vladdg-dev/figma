@@ -11,6 +11,7 @@ import {
   renderCanvas,
   handleCanvasObjectModified,
   handleCanvasSelectionCreated,
+  handleCanvasObjectScaling,
 } from '@/lib/canvas';
 
 import LeftSidebar from '@/components/LeftSidebar';
@@ -114,6 +115,13 @@ const Page = () => {
       handleCanvasSelectionCreated({
         options,
         isEditingRef,
+        setElementAttributes,
+      });
+    });
+
+    canvas.on('object:scaling', options => {
+      handleCanvasObjectScaling({
+        options,
         setElementAttributes,
       });
     });
